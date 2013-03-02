@@ -1,0 +1,324 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3CE867D916E1886C00774FAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE867D816E1886C00774FAF /* UIKit.framework */; };
+		3CE867DB16E1886D00774FAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE867DA16E1886C00774FAF /* Foundation.framework */; };
+		3CE867DD16E1886D00774FAF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE867DC16E1886D00774FAF /* CoreGraphics.framework */; };
+		3CE867E316E1886D00774FAF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3CE867E116E1886D00774FAF /* InfoPlist.strings */; };
+		3CE867E516E1886D00774FAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE867E416E1886D00774FAF /* main.m */; };
+		3CE867E916E1886D00774FAF /* ADKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE867E816E1886D00774FAF /* ADKAppDelegate.m */; };
+		3CE867EB16E1886D00774FAF /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CE867EA16E1886D00774FAF /* Default.png */; };
+		3CE867ED16E1886D00774FAF /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CE867EC16E1886D00774FAF /* Default@2x.png */; };
+		3CE867EF16E1886D00774FAF /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CE867EE16E1886D00774FAF /* Default-568h@2x.png */; };
+		3CE867F216E1886D00774FAF /* ADKMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE867F116E1886D00774FAF /* ADKMasterViewController.m */; };
+		3CE867F516E1886D00774FAF /* ADKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE867F416E1886D00774FAF /* ADKDetailViewController.m */; };
+		3CE867F816E1886D00774FAF /* ADKMasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CE867F616E1886D00774FAF /* ADKMasterViewController.xib */; };
+		3CE867FB16E1886D00774FAF /* ADKDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CE867F916E1886D00774FAF /* ADKDetailViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		3CE867D516E1886C00774FAF /* kudzu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kudzu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CE867D816E1886C00774FAF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		3CE867DA16E1886C00774FAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		3CE867DC16E1886D00774FAF /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		3CE867E016E1886D00774FAF /* kudzu-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "kudzu-Info.plist"; sourceTree = "<group>"; };
+		3CE867E216E1886D00774FAF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		3CE867E416E1886D00774FAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3CE867E616E1886D00774FAF /* kudzu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "kudzu-Prefix.pch"; sourceTree = "<group>"; };
+		3CE867E716E1886D00774FAF /* ADKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADKAppDelegate.h; sourceTree = "<group>"; };
+		3CE867E816E1886D00774FAF /* ADKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADKAppDelegate.m; sourceTree = "<group>"; };
+		3CE867EA16E1886D00774FAF /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		3CE867EC16E1886D00774FAF /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		3CE867EE16E1886D00774FAF /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		3CE867F016E1886D00774FAF /* ADKMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADKMasterViewController.h; sourceTree = "<group>"; };
+		3CE867F116E1886D00774FAF /* ADKMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADKMasterViewController.m; sourceTree = "<group>"; };
+		3CE867F316E1886D00774FAF /* ADKDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADKDetailViewController.h; sourceTree = "<group>"; };
+		3CE867F416E1886D00774FAF /* ADKDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADKDetailViewController.m; sourceTree = "<group>"; };
+		3CE867F716E1886D00774FAF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADKMasterViewController.xib; sourceTree = "<group>"; };
+		3CE867FA16E1886D00774FAF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADKDetailViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3CE867D216E1886C00774FAF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CE867D916E1886C00774FAF /* UIKit.framework in Frameworks */,
+				3CE867DB16E1886D00774FAF /* Foundation.framework in Frameworks */,
+				3CE867DD16E1886D00774FAF /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		3CE867CC16E1886C00774FAF = {
+			isa = PBXGroup;
+			children = (
+				3CE867DE16E1886D00774FAF /* kudzu */,
+				3CE867D716E1886C00774FAF /* Frameworks */,
+				3CE867D616E1886C00774FAF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		3CE867D616E1886C00774FAF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3CE867D516E1886C00774FAF /* kudzu.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		3CE867D716E1886C00774FAF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3CE867D816E1886C00774FAF /* UIKit.framework */,
+				3CE867DA16E1886C00774FAF /* Foundation.framework */,
+				3CE867DC16E1886D00774FAF /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3CE867DE16E1886D00774FAF /* kudzu */ = {
+			isa = PBXGroup;
+			children = (
+				3CE867E716E1886D00774FAF /* ADKAppDelegate.h */,
+				3CE867E816E1886D00774FAF /* ADKAppDelegate.m */,
+				3CE867F016E1886D00774FAF /* ADKMasterViewController.h */,
+				3CE867F116E1886D00774FAF /* ADKMasterViewController.m */,
+				3CE867F316E1886D00774FAF /* ADKDetailViewController.h */,
+				3CE867F416E1886D00774FAF /* ADKDetailViewController.m */,
+				3CE867F616E1886D00774FAF /* ADKMasterViewController.xib */,
+				3CE867F916E1886D00774FAF /* ADKDetailViewController.xib */,
+				3CE867DF16E1886D00774FAF /* Supporting Files */,
+			);
+			path = kudzu;
+			sourceTree = "<group>";
+		};
+		3CE867DF16E1886D00774FAF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3CE867E016E1886D00774FAF /* kudzu-Info.plist */,
+				3CE867E116E1886D00774FAF /* InfoPlist.strings */,
+				3CE867E416E1886D00774FAF /* main.m */,
+				3CE867E616E1886D00774FAF /* kudzu-Prefix.pch */,
+				3CE867EA16E1886D00774FAF /* Default.png */,
+				3CE867EC16E1886D00774FAF /* Default@2x.png */,
+				3CE867EE16E1886D00774FAF /* Default-568h@2x.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3CE867D416E1886C00774FAF /* kudzu */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3CE867FE16E1886D00774FAF /* Build configuration list for PBXNativeTarget "kudzu" */;
+			buildPhases = (
+				3CE867D116E1886C00774FAF /* Sources */,
+				3CE867D216E1886C00774FAF /* Frameworks */,
+				3CE867D316E1886C00774FAF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = kudzu;
+			productName = kudzu;
+			productReference = 3CE867D516E1886C00774FAF /* kudzu.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3CE867CD16E1886C00774FAF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = ADK;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = "Adelie Software";
+			};
+			buildConfigurationList = 3CE867D016E1886C00774FAF /* Build configuration list for PBXProject "kudzu" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 3CE867CC16E1886C00774FAF;
+			productRefGroup = 3CE867D616E1886C00774FAF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3CE867D416E1886C00774FAF /* kudzu */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3CE867D316E1886C00774FAF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CE867E316E1886D00774FAF /* InfoPlist.strings in Resources */,
+				3CE867EB16E1886D00774FAF /* Default.png in Resources */,
+				3CE867ED16E1886D00774FAF /* Default@2x.png in Resources */,
+				3CE867EF16E1886D00774FAF /* Default-568h@2x.png in Resources */,
+				3CE867F816E1886D00774FAF /* ADKMasterViewController.xib in Resources */,
+				3CE867FB16E1886D00774FAF /* ADKDetailViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CE867D116E1886C00774FAF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3CE867E516E1886D00774FAF /* main.m in Sources */,
+				3CE867E916E1886D00774FAF /* ADKAppDelegate.m in Sources */,
+				3CE867F216E1886D00774FAF /* ADKMasterViewController.m in Sources */,
+				3CE867F516E1886D00774FAF /* ADKDetailViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		3CE867E116E1886D00774FAF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CE867E216E1886D00774FAF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		3CE867F616E1886D00774FAF /* ADKMasterViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CE867F716E1886D00774FAF /* en */,
+			);
+			name = ADKMasterViewController.xib;
+			sourceTree = "<group>";
+		};
+		3CE867F916E1886D00774FAF /* ADKDetailViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3CE867FA16E1886D00774FAF /* en */,
+			);
+			name = ADKDetailViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		3CE867FC16E1886D00774FAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		3CE867FD16E1886D00774FAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		3CE867FF16E1886D00774FAF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "kudzu/kudzu-Prefix.pch";
+				INFOPLIST_FILE = "kudzu/kudzu-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		3CE8680016E1886D00774FAF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "kudzu/kudzu-Prefix.pch";
+				INFOPLIST_FILE = "kudzu/kudzu-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3CE867D016E1886C00774FAF /* Build configuration list for PBXProject "kudzu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CE867FC16E1886D00774FAF /* Debug */,
+				3CE867FD16E1886D00774FAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3CE867FE16E1886D00774FAF /* Build configuration list for PBXNativeTarget "kudzu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3CE867FF16E1886D00774FAF /* Debug */,
+				3CE8680016E1886D00774FAF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3CE867CD16E1886C00774FAF /* Project object */;
+}
