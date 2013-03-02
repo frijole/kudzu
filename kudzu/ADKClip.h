@@ -8,11 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
-@interface ADKClip : NSObject
+@interface ADKClip : NSObject <NSCoding>
 
 @property (nonatomic, retain) NSDate *date;
 @property (nonatomic, retain) NSString *title;
 @property (nonatomic, retain) NSString *description;
+
+@property (nonatomic, retain) UIImage *thumbnail;
+@property (nonatomic, retain) NSURL *movieURL;
+@property (nonatomic) NSTimeInterval duration;
 
 + (ADKClip *)clip;
 

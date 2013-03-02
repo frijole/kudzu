@@ -23,7 +23,7 @@
 	}
     else
     {
-        // iOS 5: present an action sheet
+        // iOS 5: present an action sheet with options...
 /*
         // mail
         MFMailComposeViewController *tmpViewController = [[MFMailComposeViewController alloc] init];
