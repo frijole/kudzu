@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CA6865E16E1994E00BB6138 /* ADKClip.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA6865D16E1994E00BB6138 /* ADKClip.m */; };
 		3CE867D916E1886C00774FAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE867D816E1886C00774FAF /* UIKit.framework */; };
 		3CE867DB16E1886D00774FAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE867DA16E1886C00774FAF /* Foundation.framework */; };
 		3CE867DD16E1886D00774FAF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE867DC16E1886D00774FAF /* CoreGraphics.framework */; };
@@ -20,9 +21,16 @@
 		3CE867F516E1886D00774FAF /* ADKDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE867F416E1886D00774FAF /* ADKDetailViewController.m */; };
 		3CE867F816E1886D00774FAF /* ADKMasterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CE867F616E1886D00774FAF /* ADKMasterViewController.xib */; };
 		3CE867FB16E1886D00774FAF /* ADKDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3CE867F916E1886D00774FAF /* ADKDetailViewController.xib */; };
+		3CE8680316E18D5B00774FAF /* ADKShareSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CE8680116E18D5B00774FAF /* ADKShareSheetViewController.m */; };
+		3CE8680516E18D9A00774FAF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE8680416E18D9A00774FAF /* MessageUI.framework */; };
+		3CE8680716E18DA100774FAF /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE8680616E18DA100774FAF /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		3CEF319B16E1A56C00719A7D /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEF319A16E1A56C00719A7D /* icon@2x.png */; };
+		3CEF319D16E1A57000719A7D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 3CEF319C16E1A57000719A7D /* icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3CA6865C16E1994E00BB6138 /* ADKClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADKClip.h; sourceTree = "<group>"; };
+		3CA6865D16E1994E00BB6138 /* ADKClip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADKClip.m; sourceTree = "<group>"; };
 		3CE867D516E1886C00774FAF /* kudzu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kudzu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3CE867D816E1886C00774FAF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		3CE867DA16E1886C00774FAF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -42,6 +50,12 @@
 		3CE867F416E1886D00774FAF /* ADKDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ADKDetailViewController.m; sourceTree = "<group>"; };
 		3CE867F716E1886D00774FAF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADKMasterViewController.xib; sourceTree = "<group>"; };
 		3CE867FA16E1886D00774FAF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ADKDetailViewController.xib; sourceTree = "<group>"; };
+		3CE8680116E18D5B00774FAF /* ADKShareSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADKShareSheetViewController.m; sourceTree = "<group>"; };
+		3CE8680216E18D5B00774FAF /* ADKShareSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADKShareSheetViewController.h; sourceTree = "<group>"; };
+		3CE8680416E18D9A00774FAF /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		3CE8680616E18DA100774FAF /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		3CEF319A16E1A56C00719A7D /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon@2x.png"; path = "../icon@2x.png"; sourceTree = "<group>"; };
+		3CEF319C16E1A57000719A7D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = ../icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +63,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3CE8680716E18DA100774FAF /* Social.framework in Frameworks */,
+				3CE8680516E18D9A00774FAF /* MessageUI.framework in Frameworks */,
 				3CE867D916E1886C00774FAF /* UIKit.framework in Frameworks */,
 				3CE867DB16E1886D00774FAF /* Foundation.framework in Frameworks */,
 				3CE867DD16E1886D00774FAF /* CoreGraphics.framework in Frameworks */,
@@ -78,6 +94,8 @@
 		3CE867D716E1886C00774FAF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3CE8680616E18DA100774FAF /* Social.framework */,
+				3CE8680416E18D9A00774FAF /* MessageUI.framework */,
 				3CE867D816E1886C00774FAF /* UIKit.framework */,
 				3CE867DA16E1886C00774FAF /* Foundation.framework */,
 				3CE867DC16E1886D00774FAF /* CoreGraphics.framework */,
@@ -96,6 +114,10 @@
 				3CE867F416E1886D00774FAF /* ADKDetailViewController.m */,
 				3CE867F616E1886D00774FAF /* ADKMasterViewController.xib */,
 				3CE867F916E1886D00774FAF /* ADKDetailViewController.xib */,
+				3CA6865C16E1994E00BB6138 /* ADKClip.h */,
+				3CA6865D16E1994E00BB6138 /* ADKClip.m */,
+				3CE8680216E18D5B00774FAF /* ADKShareSheetViewController.h */,
+				3CE8680116E18D5B00774FAF /* ADKShareSheetViewController.m */,
 				3CE867DF16E1886D00774FAF /* Supporting Files */,
 			);
 			path = kudzu;
@@ -104,6 +126,8 @@
 		3CE867DF16E1886D00774FAF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				3CEF319C16E1A57000719A7D /* icon.png */,
+				3CEF319A16E1A56C00719A7D /* icon@2x.png */,
 				3CE867E016E1886D00774FAF /* kudzu-Info.plist */,
 				3CE867E116E1886D00774FAF /* InfoPlist.strings */,
 				3CE867E416E1886D00774FAF /* main.m */,
@@ -173,6 +197,8 @@
 				3CE867EF16E1886D00774FAF /* Default-568h@2x.png in Resources */,
 				3CE867F816E1886D00774FAF /* ADKMasterViewController.xib in Resources */,
 				3CE867FB16E1886D00774FAF /* ADKDetailViewController.xib in Resources */,
+				3CEF319B16E1A56C00719A7D /* icon@2x.png in Resources */,
+				3CEF319D16E1A57000719A7D /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,6 +213,8 @@
 				3CE867E916E1886D00774FAF /* ADKAppDelegate.m in Sources */,
 				3CE867F216E1886D00774FAF /* ADKMasterViewController.m in Sources */,
 				3CE867F516E1886D00774FAF /* ADKDetailViewController.m in Sources */,
+				3CE8680316E18D5B00774FAF /* ADKShareSheetViewController.m in Sources */,
+				3CA6865E16E1994E00BB6138 /* ADKClip.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -245,7 +273,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -269,7 +297,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -317,6 +345,7 @@
 				3CE8680016E1886D00774FAF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -42,6 +42,11 @@
     [self configureView];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self.navigationController setToolbarHidden:YES animated:YES];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
