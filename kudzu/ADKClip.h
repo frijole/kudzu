@@ -16,7 +16,7 @@
 
 @property (nonatomic, retain) UIImage *thumbnail;
 @property (nonatomic, retain) NSURL *movieURL;
-@property (nonatomic) NSTimeInterval duration;
+@property (nonatomic) CGFloat duration;
 
 + (ADKClip *)clip;
 

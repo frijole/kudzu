@@ -13,7 +13,7 @@
 #define ADKClipDescriptionKey   @"ADKClipDescriptionKey"
 #define ADKClipThumbnailKey     @"ADKClipThumbnailKey"
 #define ADKClipMovieKey         @"ADKClipMovieKey"
-#define ADKClipDurationKey          @"ADKClipDurationKey"
+#define ADKClipDurationKey      @"ADKClipDurationKey"
 
 @implementation ADKClip
 

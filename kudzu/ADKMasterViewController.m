@@ -26,7 +26,7 @@
 
 static ALAssetsLibrary *assetLibrary = nil;
 
-@interface ADKMasterViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate>
+@interface ADKMasterViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UIVideoEditorControllerDelegate>
 {
     NSMutableArray *_objects;
 }
@@ -130,6 +130,25 @@ static ALAssetsLibrary *assetLibrary = nil;
 {
     if ( self.objects.count == 0 ) {
         NSLog(@"can't share nothing!");
+
+        UIAlertView *tmpAlertView = [[UIAlertView alloc] initWithTitle:@"kudzu"
+                                                               message:@"Nothing to Export\n\nAdd some clips!"
+                                                              delegate:nil
+                                                     cancelButtonTitle:nil
+                                                     otherButtonTitles:@"OK", nil];
+        [tmpAlertView show];
+
+        return;
+    } else if ( self.objects.count == 1 ) {
+        NSLog(@"can't share one thing!");
+        
+        UIAlertView *tmpAlertView = [[UIAlertView alloc] initWithTitle:@"kudzu"
+                                                               message:@"Nothing to Export\n\nAdd some more clips!"
+                                                              delegate:nil
+                                                     cancelButtonTitle:nil
+                                                     otherButtonTitles:@"OK", nil];
+        [tmpAlertView show];
+        
         return;
     }
     
@@ -139,6 +158,7 @@ static ALAssetsLibrary *assetLibrary = nil;
     [[self.toolbarItems lastObject] setEnabled:NO];
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.animationType = MBProgressHUDAnimationFade;
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Compressing...";
     
@@ -204,9 +224,9 @@ static ALAssetsLibrary *assetLibrary = nil;
     if ( !self.moviePicker ) {
         self.moviePicker = [[UIImagePickerController alloc] init];
         self.moviePicker.allowsEditing = YES;
+        self.moviePicker.videoMaximumDuration = 2.5f;
         self.moviePicker.delegate = self;
         self.moviePicker.mediaTypes = @[(NSString *)kUTTypeMovie];
-//        self.moviePicker.
     }
     
     // check for camera
@@ -244,14 +264,64 @@ static ALAssetsLibrary *assetLibrary = nil;
         }
     }
     
+//    // we want to present an editing interface for the movie at this url.
+//    if ( [UIVideoEditorController canEditVideoAtPath:[tmpMovieURL absoluteString]] ) {
+//        dispatch_async( dispatch_get_main_queue(), ^{
+//            UIVideoEditorController *videoEditorController = [[UIVideoEditorController alloc] init];
+//            videoEditorController.delegate = self;
+//            videoEditorController.videoMaximumDuration = 0.0;
+//            videoEditorController.videoQuality = UIImagePickerControllerQualityTypeHigh;
+//            videoEditorController.videoPath = [tmpMovieURL absoluteString];
+//            [picker.presentingViewController presentModalViewController:videoEditorController animated:YES];
+//        });
+//    } else {
+//        NSLog(@"cannot edit video at path: %@", [tmpMovieURL absoluteString]);
+
+    // adding it as-is
     // create a new ADKClip...
     ADKClip *tmpClip = [ADKClip clip];
     tmpClip.movieURL = tmpMovieURL;
     
     // get the duration by making an AVPlayerItem
     // generate a thumbnail, too. (this is ugly, but apparently works? via http://stackoverflow.com/a/6027285)
-    // AVPlayerItem *tmpPlayerItem = [AVPlayerItem playerItemWithURL:tmpMovieURL];
+    AVPlayerItem *tmpPlayerItem = [AVPlayerItem playerItemWithURL:tmpMovieURL];
     MPMoviePlayerController *tmpMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:tmpMovieURL];
+    [tmpMoviePlayer setShouldAutoplay:NO];
+    [tmpMoviePlayer stop]; // just in case
+    
+    tmpClip.thumbnail = [tmpMoviePlayer thumbnailImageAtTime:0.0f timeOption:MPMovieTimeOptionNearestKeyFrame];
+    tmpClip.duration = CMTimeGetSeconds([tmpPlayerItem duration]);
+    
+    // we're done with the movie player
+    tmpMoviePlayer = nil;
+    
+    // ditch the avplayer, though
+    tmpPlayerItem = nil;
+    
+    // ...add it to the array...
+    [self.objects addObject:tmpClip];
+    
+    // save it, too
+    [self saveToDisk];
+    
+    // ...and add it to the table
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_objects.count-1 inSection:0];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [picker.presentingViewController dismissModalViewControllerAnimated:YES];
+    
+}
+
+- (void)videoEditorController:(UIVideoEditorController *)editor didSaveEditedVideoToPath:(NSString *)editedVideoPath
+{
+    // create a new ADKClip...
+    ADKClip *tmpClip = [ADKClip clip];
+    tmpClip.movieURL = [NSURL URLWithString:editedVideoPath];
+    
+    // get the duration by making an AVPlayerItem
+    // generate a thumbnail, too. (this is ugly, but apparently works? via http://stackoverflow.com/a/6027285)
+    // AVPlayerItem *tmpPlayerItem = [AVPlayerItem playerItemWithURL:tmpMovieURL];
+    MPMoviePlayerController *tmpMoviePlayer = [[MPMoviePlayerController alloc] initWithContentURL:tmpClip.movieURL];
     [tmpMoviePlayer stop]; // just in case
     
     tmpClip.thumbnail = [tmpMoviePlayer thumbnailImageAtTime:0.0f timeOption:MPMovieTimeOptionNearestKeyFrame];
@@ -271,14 +341,11 @@ static ALAssetsLibrary *assetLibrary = nil;
     
     // save it, too
     [self saveToDisk];
-
+    
     // ...and add it to the table
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:_objects.count-1 inSection:0];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-
-    [picker dismissModalViewControllerAnimated:YES];
 }
-
 
 #pragma mark - Photo Library
 - (void)saveMovie:(NSURL *)movieFileURL toAlbum:(NSString*)albumName withCompletionBlock:(void (^)(NSError* error))completionBlock
@@ -432,19 +499,23 @@ static ALAssetsLibrary *assetLibrary = nil;
         if ( [sourceAsset tracksWithMediaType:AVMediaTypeVideo].count > 0 )
             sourceVideoTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
         else {
-            NSLog(@"no video track on asset from %@", [videoPathArray objectAtIndex:i]);
-            return;
+            NSString *tmpError = [NSString stringWithFormat:@"no video track on asset from %@", [videoPathArray objectAtIndex:i] ];
+            NSLog(@"%@",tmpError);
+            // return;
+            error = [NSError errorWithDomain:@"kudzu" code:42 userInfo:@{@"info" : tmpError}];
         }
         
         AVAssetTrack *sourceAudioTrack = nil;
-        if ( [sourceAsset tracksWithMediaType:AVMediaTypeAudio].count > 0 )
+        if ( [sourceAsset tracksWithMediaType:AVMediaTypeAudio].count > 0 ) {
             sourceAudioTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
-        else {
-            NSLog(@"no audio track on asset from %@", [videoPathArray objectAtIndex:i]);
-            return;
+        } else {
+            NSString *tmpError = [NSString stringWithFormat:@"no audio track on asset from %@", [videoPathArray objectAtIndex:i] ];
+            NSLog(@"%@",tmpError);
+            // return;
+            error = [NSError errorWithDomain:@"kudzu" code:42 userInfo:@{@"info" : tmpError}];
         }
         
-        NSLog(@"asset transform: %@",NSStringFromCGAffineTransform(sourceVideoTrack.preferredTransform));
+        // NSLog(@"asset transform: %@",NSStringFromCGAffineTransform(sourceVideoTrack.preferredTransform));
 
 //        //set the orientation
 //        if(i == 0)
@@ -460,7 +531,7 @@ static ALAssetsLibrary *assetLibrary = nil;
         
         
         // check the size of the sourceVideoTrack compared to the compositionVideoTrack (?)
-        NSLog(@"clip size: %@, master size: %@",NSStringFromCGSize(sourceVideoTrack.naturalSize),NSStringFromCGSize(compositionVideoTrack.naturalSize));
+        // NSLog(@"clip size: %@, master size: %@",NSStringFromCGSize(sourceVideoTrack.naturalSize),NSStringFromCGSize(compositionVideoTrack.naturalSize));
         
 /*
         if( [self orientationForAsset:sourceAsset] == UIInterfaceOrientationPortrait ) {
@@ -483,7 +554,7 @@ static ALAssetsLibrary *assetLibrary = nil;
         if (!videoOk || !audioOk) {
             // Deal with the error.
             NSLog(@"something went wrong");
-            return;
+            // return;
         }
         
 //        //if the track we added was in landscape-left mode, it needs to be rotated 180 degrees (PI)
@@ -575,14 +646,27 @@ static ALAssetsLibrary *assetLibrary = nil;
         [self saveMovie:combinedURL toAlbum:@"kudzu output" withCompletionBlock:^(NSError *error) {
             // NSLog(@"saved merged video");
             dispatch_async( dispatch_get_main_queue(), ^{
-                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 
-                UIAlertView *tmpAlertView = [[UIAlertView alloc] initWithTitle:@"kudzu"
-                                                                       message:@"Saved to Photo Library"
-                                                                      delegate:nil
-                                                             cancelButtonTitle:nil
-                                                             otherButtonTitles:@"OK", nil];
-                [tmpAlertView show];
+                MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+                if ( hud ) {
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"19-check.png"]];
+                    hud.labelText = @"Saved!";
+                    
+                    double delayInSeconds = 1.0f;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                        // enable the button, too
+                        [[self.navigationController.toolbar.items lastObject] setEnabled:YES];
+                    });
+                }
+//                UIAlertView *tmpAlertView = [[UIAlertView alloc] initWithTitle:@"kudzu"
+//                                                                       message:@"Saved to Photo Library"
+//                                                                      delegate:nil
+//                                                             cancelButtonTitle:nil
+//                                                             otherButtonTitles:@"OK", nil];
+//                [tmpAlertView show];
             });
 
         }];
@@ -594,6 +678,28 @@ static ALAssetsLibrary *assetLibrary = nil;
 
     } else {
         NSLog(@"Merging videos failed D: #%@",error);
+        
+        dispatch_async( dispatch_get_main_queue(), ^{
+            
+            MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+            if ( hud ) {
+                hud.mode = MBProgressHUDModeCustomView;
+                hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"11-x.png"]];
+                hud.labelText = @"Failed D:";
+                
+                double delayInSeconds = 1.5f;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                });
+            }
+            //                UIAlertView *tmpAlertView = [[UIAlertView alloc] initWithTitle:@"kudzu"
+            //                                                                       message:@"Export Failed :("
+            //                                                                      delegate:nil
+            //                                                             cancelButtonTitle:nil
+            //                                                             otherButtonTitles:@"OK", nil];
+            //                [tmpAlertView show];
+        });
     }
 }
 
@@ -723,10 +829,45 @@ static ALAssetsLibrary *assetLibrary = nil;
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+
+        // take it out of the array
         [_objects removeObjectAtIndex:indexPath.row];
-        [self saveToDisk];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        [self refreshData];
+
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.animationType = MBProgressHUDAnimationFade;
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.labelText = @"Deleting...";
+        
+        // and dispatch saving it
+        static dispatch_queue_t myQueue = nil;
+        if ( !myQueue )
+            myQueue = dispatch_queue_create("myQueue", NULL);
+        
+        dispatch_async(myQueue, ^{
+            // save it in the background
+            [self saveToDisk];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // udpate the UI when we're done
+                [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                [self refreshData];
+
+                // update the hud and dismiss it quickly
+                MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+                if ( hud ) {
+                    hud.mode = MBProgressHUDModeCustomView;
+                    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"11-x.png"]];
+                    hud.labelText = @"Deleted";
+                    
+                    double delayInSeconds = 1.0f;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                    });
+                }
+            });
+        });
+    
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
     }

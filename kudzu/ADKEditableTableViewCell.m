@@ -158,7 +158,7 @@
             self.detailTextLabel.text = [NSString stringWithFormat:@"%@ s",[numberFormatter stringFromNumber:[NSNumber numberWithFloat:self.clip.duration]]];
         } else {
             // no description, no date. nothing.
-            self.detailTextLabel.text = nil;
+            self.detailTextLabel.text = @" ";
         }
     }
     
