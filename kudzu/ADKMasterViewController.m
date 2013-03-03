@@ -24,11 +24,16 @@
 #define kADKShowDetailButton    NO
 #define kADKCameraAvailable     [UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceRear]
 
+#define kADKAlertViewTagTrash   42
+
+
 static ALAssetsLibrary *assetLibrary = nil;
 
-@interface ADKMasterViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UIVideoEditorControllerDelegate>
+@interface ADKMasterViewController () <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, UIVideoEditorControllerDelegate, UIAlertViewDelegate>
 {
     NSMutableArray *_objects;
+    
+    UIImageView *_tips;
 }
 
 @property (nonatomic, retain) UIImagePickerController *moviePicker;
@@ -61,6 +66,7 @@ static ALAssetsLibrary *assetLibrary = nil;
         [self.tableView registerClass:[ADKEditableTableViewCell class] forCellReuseIdentifier:@"cell"];
     
     [self.tableView setRowHeight:60.0f];
+    [self.tableView setBackgroundColor:[UIColor colorWithWhite:0.9f alpha:1.0f]];
     
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed)];
     self.navigationItem.rightBarButtonItem = addButton;
@@ -109,6 +115,16 @@ static ALAssetsLibrary *assetLibrary = nil;
 }
 
 #pragma mark - Buttons
+- (void)trashButtonPressed
+{
+    UIAlertView *tmpAlertView = [[UIAlertView alloc] initWithTitle:@"kudzu"
+                                                           message:@"remove all clips?"
+                                                          delegate:self
+                                                 cancelButtonTitle:@"Cancel"
+                                                 otherButtonTitles:@"Remove", nil];
+    [tmpAlertView setTag:42];
+    [tmpAlertView show];
+}
 
 - (void)addButtonPressed
 {
@@ -160,7 +176,8 @@ static ALAssetsLibrary *assetLibrary = nil;
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.animationType = MBProgressHUDAnimationFade;
     hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Compressing...";
+    hud.labelText = @"Exporting...";
+    hud.detailsLabelText = @"The video will be saved in the\n'kudzu output' album in the photo library.";
     
     NSMutableArray *tmpClipURLs = [NSMutableArray array];
     
@@ -174,6 +191,40 @@ static ALAssetsLibrary *assetLibrary = nil;
 
 - (void)refreshData
 {
+    // if we don't have any data, hide the table and show the tips.
+    if ( self.objects.count == 0 ) {
+        // [self.tableView setHidden:YES];
+        // [self.tableView setBackgroundColor:[UIColor colorWithRed:45/255.0f green:75/255.0f blue:60/255.0f alpha:1.0f]];
+        // [self.tableView setBackgroundColor:[UIColor colorWithWhite:0.8f alpha:1.0f]];
+        [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+        // more
+        UIImage *tmpImage = [UIImage imageNamed:@"tips"];
+        if ( !_tips && tmpImage ) {
+            _tips = [[UIImageView alloc] initWithImage:tmpImage];
+            CGRect tmpFrame = self.tableView.bounds;
+            tmpFrame.size.width -= 10;
+            tmpFrame.origin.y += 10;
+            tmpFrame.size.height -= 10;
+            [_tips setFrame:tmpFrame];
+            [_tips setAutoresizingMask:(UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight)];
+            [_tips setContentMode:UIViewContentModeTopRight];
+            [_tips setBackgroundColor:[UIColor clearColor]];
+            [self.view addSubview:_tips];
+        }
+    } else {
+        // we have data, make sure the table is visible
+        // [self.tableView setHidden:NO];
+        // [self.tableView setBackgroundColor:[UIColor colorWithWhite:0.9f alpha:1.0f]];
+        [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
+        
+        if ( _tips ) {
+            [_tips removeFromSuperview];
+            _tips = nil;
+        }
+        
+    } // and continue...
+    
+    
     // whenever we're going to appear, recalculate the total time
     CGFloat tmpTotalTime = 0.0f;
     for ( ADKClip *clip in self.objects )
@@ -214,6 +265,31 @@ static ALAssetsLibrary *assetLibrary = nil;
         default:
             break;
     }
+}
+
+#pragma mark - Alert View Delegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    switch ( alertView.tag ) {
+
+        case kADKAlertViewTagTrash:
+            // trash one!
+            if ( buttonIndex != alertView.cancelButtonIndex ) {
+                // confirmed clearing all clips
+                [self setEditing:NO animated:YES];
+
+                [self.objects removeAllObjects];
+                [self.tableView reloadData];
+                [self refreshData];
+            }
+            
+            break;
+            
+        default:
+            NSLog(@"unknown alert view");
+            break;
+    }
+    
 }
 
 
@@ -650,10 +726,11 @@ static ALAssetsLibrary *assetLibrary = nil;
                 MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
                 if ( hud ) {
                     hud.mode = MBProgressHUDModeCustomView;
-                    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"19-check.png"]];
-                    hud.labelText = @"Saved!";
+                    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"checkmark"]];
+                    hud.labelText = @"Done!";
+                    hud.detailsLabelText = @"The video bas been saved in the\n'kudzu output' album in the photo library.";
                     
-                    double delayInSeconds = 1.0f;
+                    double delayInSeconds = 2.0f;
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -684,10 +761,11 @@ static ALAssetsLibrary *assetLibrary = nil;
             MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
             if ( hud ) {
                 hud.mode = MBProgressHUDModeCustomView;
-                hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"11-x.png"]];
-                hud.labelText = @"Failed D:";
+                hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"xmark"]];
+                hud.labelText = @"Export Failed";
+                hud.detailsLabelText = @"Sorry about that D:";
                 
-                double delayInSeconds = 1.5f;
+                double delayInSeconds = 2.0f;
                 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                 dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                     [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -784,6 +862,21 @@ static ALAssetsLibrary *assetLibrary = nil;
 
 
 #pragma mark - Table View
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+    [super setEditing:editing animated:animated];
+    
+    if ( !editing ) {
+        // add button
+        UIBarButtonItem *tmpAddButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed)];
+        [self.navigationItem setRightBarButtonItem:tmpAddButton animated:YES];
+    } else {
+        UIBarButtonItem *tmpClearButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(trashButtonPressed)];
+        [tmpClearButton setTintColor:[UIColor redColor]];
+        [self.navigationItem setRightBarButtonItem:tmpClearButton animated:YES];
+    }
+    
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -856,13 +949,14 @@ static ALAssetsLibrary *assetLibrary = nil;
                 MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
                 if ( hud ) {
                     hud.mode = MBProgressHUDModeCustomView;
-                    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"11-x.png"]];
+                    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"xmark"]];
                     hud.labelText = @"Deleted";
                     
                     double delayInSeconds = 1.0f;
                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                        [self refreshData]; // labels etc
                     });
                 }
             });
@@ -916,7 +1010,10 @@ static ALAssetsLibrary *assetLibrary = nil;
     self.detailViewController.detailItem = object;
     [self.navigationController pushViewController:self.detailViewController animated:YES];
     
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];}
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
 
 #pragma mark - iOS 5 Rotation
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

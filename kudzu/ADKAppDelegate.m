@@ -9,6 +9,7 @@
 #import "ADKAppDelegate.h"
 
 #import "ADKMasterViewController.h"
+#import "ADKAppearanceManager.h"
 
 @implementation ADKAppDelegate
 
@@ -17,6 +18,10 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
 
+    // appearance customizations
+    // [ADKAppearanceManager setup];
+    
+    // proceed
     ADKMasterViewController *masterViewController = [[ADKMasterViewController alloc] initWithNibName:@"ADKMasterViewController" bundle:nil];
     self.navigationController = [[UINavigationController alloc] initWithRootViewController:masterViewController];
     self.window.rootViewController = self.navigationController;

@@ -25,6 +25,7 @@
     self = [super initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        [self setSelectionStyle:UITableViewCellSelectionStyleGray];
     }
     return self;
 }

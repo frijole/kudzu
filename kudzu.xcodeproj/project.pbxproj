@@ -10,10 +10,13 @@
 		3C557E0516E2726100192B7C /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C557E0416E2726100192B7C /* AVFoundation.framework */; };
 		3C557E0716E2747300192B7C /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C557E0616E2747300192B7C /* CoreMedia.framework */; };
 		3C557E0B16E2C08600192B7C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C557E0A16E2C08600192B7C /* MBProgressHUD.m */; };
-		3C557E1216E2DBBC00192B7C /* 11-x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1016E2DBBC00192B7C /* 11-x.png */; };
-		3C557E1316E2DBBC00192B7C /* 11-x@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1116E2DBBC00192B7C /* 11-x@2x.png */; };
-		3C557E1616E2DF4400192B7C /* 19-check.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1416E2DF4400192B7C /* 19-check.png */; };
-		3C557E1716E2DF4400192B7C /* 19-check@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1516E2DF4400192B7C /* 19-check@2x.png */; };
+		3C557E1216E2DBBC00192B7C /* xmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1016E2DBBC00192B7C /* xmark.png */; };
+		3C557E1316E2DBBC00192B7C /* xmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1116E2DBBC00192B7C /* xmark@2x.png */; };
+		3C557E1616E2DF4400192B7C /* checkmark.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1416E2DF4400192B7C /* checkmark.png */; };
+		3C557E1716E2DF4400192B7C /* checkmark@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1516E2DF4400192B7C /* checkmark@2x.png */; };
+		3C557E1A16E39BFA00192B7C /* ADKAppearanceManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C557E1916E39BFA00192B7C /* ADKAppearanceManager.m */; };
+		3C557E1D16E3A05100192B7C /* tips@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1B16E3A05100192B7C /* tips@2x.png */; };
+		3C557E1E16E3A05100192B7C /* tips.png in Resources */ = {isa = PBXBuildFile; fileRef = 3C557E1C16E3A05100192B7C /* tips.png */; };
 		3CA6865E16E1994E00BB6138 /* ADKClip.m in Sources */ = {isa = PBXBuildFile; fileRef = 3CA6865D16E1994E00BB6138 /* ADKClip.m */; };
 		3CE867D916E1886C00774FAF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE867D816E1886C00774FAF /* UIKit.framework */; };
 		3CE867DB16E1886D00774FAF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE867DA16E1886C00774FAF /* Foundation.framework */; };
@@ -45,10 +48,14 @@
 		3C557E0616E2747300192B7C /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		3C557E0916E2C08600192B7C /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = submodules/MBProgressHUD/MBProgressHUD.h; sourceTree = SOURCE_ROOT; };
 		3C557E0A16E2C08600192B7C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = submodules/MBProgressHUD/MBProgressHUD.m; sourceTree = SOURCE_ROOT; };
-		3C557E1016E2DBBC00192B7C /* 11-x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11-x.png"; sourceTree = "<group>"; };
-		3C557E1116E2DBBC00192B7C /* 11-x@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "11-x@2x.png"; sourceTree = "<group>"; };
-		3C557E1416E2DF4400192B7C /* 19-check.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-check.png"; sourceTree = "<group>"; };
-		3C557E1516E2DF4400192B7C /* 19-check@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "19-check@2x.png"; sourceTree = "<group>"; };
+		3C557E1016E2DBBC00192B7C /* xmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xmark.png; sourceTree = "<group>"; };
+		3C557E1116E2DBBC00192B7C /* xmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xmark@2x.png"; sourceTree = "<group>"; };
+		3C557E1416E2DF4400192B7C /* checkmark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checkmark.png; sourceTree = "<group>"; };
+		3C557E1516E2DF4400192B7C /* checkmark@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkmark@2x.png"; sourceTree = "<group>"; };
+		3C557E1816E39BFA00192B7C /* ADKAppearanceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADKAppearanceManager.h; sourceTree = "<group>"; };
+		3C557E1916E39BFA00192B7C /* ADKAppearanceManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADKAppearanceManager.m; sourceTree = "<group>"; };
+		3C557E1B16E3A05100192B7C /* tips@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tips@2x.png"; sourceTree = "<group>"; };
+		3C557E1C16E3A05100192B7C /* tips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tips.png; sourceTree = "<group>"; };
 		3CA6865C16E1994E00BB6138 /* ADKClip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADKClip.h; sourceTree = "<group>"; };
 		3CA6865D16E1994E00BB6138 /* ADKClip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADKClip.m; sourceTree = "<group>"; };
 		3CE867D516E1886C00774FAF /* kudzu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = kudzu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,10 +117,12 @@
 			children = (
 				3C557E0916E2C08600192B7C /* MBProgressHUD.h */,
 				3C557E0A16E2C08600192B7C /* MBProgressHUD.m */,
-				3C557E1416E2DF4400192B7C /* 19-check.png */,
-				3C557E1516E2DF4400192B7C /* 19-check@2x.png */,
-				3C557E1016E2DBBC00192B7C /* 11-x.png */,
-				3C557E1116E2DBBC00192B7C /* 11-x@2x.png */,
+				3C557E1416E2DF4400192B7C /* checkmark.png */,
+				3C557E1516E2DF4400192B7C /* checkmark@2x.png */,
+				3C557E1016E2DBBC00192B7C /* xmark.png */,
+				3C557E1116E2DBBC00192B7C /* xmark@2x.png */,
+				3C557E1B16E3A05100192B7C /* tips@2x.png */,
+				3C557E1C16E3A05100192B7C /* tips.png */,
 			);
 			name = Submodules;
 			path = kudzu;
@@ -171,6 +180,8 @@
 				3CE8680116E18D5B00774FAF /* ADKShareSheetViewController.m */,
 				3CEF31A016E1A8B300719A7D /* ADKEditableTableViewCell.h */,
 				3CEF31A116E1A8B300719A7D /* ADKEditableTableViewCell.m */,
+				3C557E1816E39BFA00192B7C /* ADKAppearanceManager.h */,
+				3C557E1916E39BFA00192B7C /* ADKAppearanceManager.m */,
 				3CE867DF16E1886D00774FAF /* Supporting Files */,
 			);
 			path = kudzu;
@@ -254,10 +265,12 @@
 				3CEF319B16E1A56C00719A7D /* icon@2x.png in Resources */,
 				3CEF319D16E1A57000719A7D /* icon.png in Resources */,
 				3CEF319F16E1A7F600719A7D /* placeholder.png in Resources */,
-				3C557E1216E2DBBC00192B7C /* 11-x.png in Resources */,
-				3C557E1316E2DBBC00192B7C /* 11-x@2x.png in Resources */,
-				3C557E1616E2DF4400192B7C /* 19-check.png in Resources */,
-				3C557E1716E2DF4400192B7C /* 19-check@2x.png in Resources */,
+				3C557E1216E2DBBC00192B7C /* xmark.png in Resources */,
+				3C557E1316E2DBBC00192B7C /* xmark@2x.png in Resources */,
+				3C557E1616E2DF4400192B7C /* checkmark.png in Resources */,
+				3C557E1716E2DF4400192B7C /* checkmark@2x.png in Resources */,
+				3C557E1D16E3A05100192B7C /* tips@2x.png in Resources */,
+				3C557E1E16E3A05100192B7C /* tips.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +289,7 @@
 				3CA6865E16E1994E00BB6138 /* ADKClip.m in Sources */,
 				3CEF31A216E1A8B300719A7D /* ADKEditableTableViewCell.m in Sources */,
 				3C557E0B16E2C08600192B7C /* MBProgressHUD.m in Sources */,
+				3C557E1A16E39BFA00192B7C /* ADKAppearanceManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,10 +393,12 @@
 		3CE8680016E1886D00774FAF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ian Meyer (2SE5T659LR)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "kudzu/kudzu-Prefix.pch";
 				INFOPLIST_FILE = "kudzu/kudzu-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "50E933EB-6C00-45B5-8647-BA2D72AF77FF";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
