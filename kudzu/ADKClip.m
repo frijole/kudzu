@@ -40,13 +40,13 @@
 #pragma mark - NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    self.date ? [coder encodeObject:self.date forKey:ADKClipDateKey] : nil;
-    self.title ? [coder encodeObject:self.title forKey:ADKClipTitleKey] : nil;
-    self.description ? [coder encodeObject:self.description forKey:ADKClipDescriptionKey] : nil;
+    [coder encodeObject:self.date forKey:ADKClipDateKey];
+    [coder encodeObject:self.title forKey:ADKClipTitleKey];
+    [coder encodeObject:self.description forKey:ADKClipDescriptionKey];
     
-    self.thumbnail ? [coder encodeObject:self.thumbnail forKey:ADKClipThumbnailKey] : nil;
-    self.movieURL ? [coder encodeObject:self.movieURL forKey:ADKClipMovieKey] : nil;
-    self.duration ? [coder encodeFloat:self.duration forKey:ADKClipDurationKey] : nil;
+    [coder encodeObject:self.thumbnail forKey:ADKClipThumbnailKey];
+    [coder encodeObject:self.movieURL forKey:ADKClipMovieKey];
+    [coder encodeFloat:self.duration forKey:ADKClipDurationKey];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
