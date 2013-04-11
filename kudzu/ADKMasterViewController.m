@@ -279,7 +279,9 @@ static ALAssetsLibrary *assetLibrary = nil;
                 [self setEditing:NO animated:YES];
 
                 [self.objects removeAllObjects];
-                [self.tableView reloadData];
+                [self saveToDisk];
+                // [self.tableView reloadData];
+                [self.tableView deleteRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationAutomatic];
                 [self refreshData];
             }
             
@@ -300,7 +302,7 @@ static ALAssetsLibrary *assetLibrary = nil;
     if ( !self.moviePicker ) {
         self.moviePicker = [[UIImagePickerController alloc] init];
         self.moviePicker.allowsEditing = YES;
-        self.moviePicker.videoMaximumDuration = 2.5f;
+        self.moviePicker.videoMaximumDuration = 5.0f;
         self.moviePicker.delegate = self;
         self.moviePicker.mediaTypes = @[(NSString *)kUTTypeMovie];
     }
