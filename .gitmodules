@@ -1,3 +1,6 @@
 [submodule "submodules/MBProgressHUD"]
 	path = submodules/MBProgressHUD
 	url = https://github.com/jdg/MBProgressHUD.git
+[submodule "submodules/MultiVidCam"]
+	path = submodules/MultiVidCam
+	url = https://github.com/carsonmcdonald/iOSVideoCameraMultiStitchExample.git
