@@ -18,6 +18,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVFoundation.h>
 
+#import "AVAssetStitcher.h"
+
 #import "MBProgressHUD.h"
 
 #define kADKDataStoreArchiveKey @"archive"
@@ -26,6 +28,7 @@
 
 #define kADKAlertViewTagTrash   42
 
+#define kADKOutputSize          CGSizeMake(1280.0f,720.0f)
 
 static ALAssetsLibrary *assetLibrary = nil;
 
@@ -51,6 +54,7 @@ static ALAssetsLibrary *assetLibrary = nil;
     if (self) {
         self.title = NSLocalizedString(@"kudzu", @"kudzu");
     }
+    
     return self;
 }
 							
@@ -542,160 +546,82 @@ static ALAssetsLibrary *assetLibrary = nil;
 #pragma mark - Video Merging
 - (void)mergeVideos:(NSMutableArray *)videoPathArray
 {
-    AVMutableComposition *composition = [AVMutableComposition composition];
-    AVMutableCompositionTrack *compositionVideoTrack = [composition addMutableTrackWithMediaType:AVMediaTypeVideo preferredTrackID: kCMPersistentTrackID_Invalid];
-    AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
-    AVMutableCompositionTrack *compositionAudioTrack = [composition addMutableTrackWithMediaType:AVMediaTypeAudio preferredTrackID: kCMPersistentTrackID_Invalid];
-
-    videoComposition.frameDuration = CMTimeMake(1,30);
-    videoComposition.renderScale = 1.0;
+    CGSize videoSize = kADKOutputSize;
     
-    AVMutableVideoCompositionInstruction *instruction = [AVMutableVideoCompositionInstruction videoCompositionInstruction];
-    AVMutableVideoCompositionLayerInstruction *layerInstruction = [AVMutableVideoCompositionLayerInstruction videoCompositionLayerInstructionWithAssetTrack:compositionVideoTrack];
+    AVAssetStitcher *stitcher = [[AVAssetStitcher alloc] initWithOutputSize:videoSize];
     
-//    // Get only paths the user selected
-//    NSMutableArray *array = [NSMutableArray array];
-//    for (NSString* string in videoPathArray) {
-//        if (![string isEqualToString:@""]) {
-//            [array addObject: string];
-//        }
-//    }
-//    videoPathArray = array;
+    __block NSError *stitcherError;
+    NSMutableArray *temporaryFileURLs;
     
-    //float time = 0;
-    CMTime startTime = kCMTimeZero;
-    
-    for (int i = 0; i<videoPathArray.count; i++) {
-        AVURLAsset *sourceAsset = [AVURLAsset URLAssetWithURL:[videoPathArray objectAtIndex:i]
-                                                      options:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
-                                                                                           forKey:AVURLAssetPreferPreciseDurationAndTimingKey]];
-        NSError *error = nil;
-        BOOL videoOk = NO;
-        BOOL audioOk = NO;
+    [temporaryFileURLs enumerateObjectsWithOptions:NSEnumerationReverse usingBlock:^(NSURL *outputFileURL, NSUInteger idx, BOOL *stop) {
         
-        AVAssetTrack *sourceVideoTrack = nil;
-        if ( [sourceAsset tracksWithMediaType:AVMediaTypeVideo].count > 0 )
-            sourceVideoTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeVideo] objectAtIndex:0];
-        else {
-            NSString *tmpError = [NSString stringWithFormat:@"no video track on asset from %@", [videoPathArray objectAtIndex:i] ];
-            NSLog(@"%@",tmpError);
-            // return;
-            error = [NSError errorWithDomain:@"kudzu" code:42 userInfo:@{@"info" : tmpError}];
-        }
+        [stitcher addAsset:[AVURLAsset assetWithURL:outputFileURL] withTransform:^CGAffineTransform(AVAssetTrack *videoTrack) {
+            
+            //
+            // The following transform is applied to each video track. It changes the size of the
+            // video so it fits within the output size and stays at the correct aspect ratio.
+            //
+            
+            CGFloat ratioW = videoSize.width / videoTrack.naturalSize.width;
+            CGFloat ratioH = videoSize.height / videoTrack.naturalSize.height;
+            if(ratioW < ratioH)
+            {
+                CGFloat diffH = videoTrack.naturalSize.height - (videoTrack.naturalSize.height * ratioH);
+                return CGAffineTransformConcat( CGAffineTransformMakeTranslation(0, -diffH/2.0), CGAffineTransformMakeScale(ratioH, ratioH) );
+            }
+            else
+            {
+                CGFloat diffW = videoTrack.naturalSize.width - (videoTrack.naturalSize.width * ratioW);
+                return CGAffineTransformConcat( CGAffineTransformMakeTranslation(-diffW/2.0, 0), CGAffineTransformMakeScale(ratioW, ratioW) );
+            }
+            
+        } withErrorHandler:^(NSError *error) {
+            
+            stitcherError = error;
+            
+        }];
         
-        AVAssetTrack *sourceAudioTrack = nil;
-        if ( [sourceAsset tracksWithMediaType:AVMediaTypeAudio].count > 0 ) {
-            sourceAudioTrack = [[sourceAsset tracksWithMediaType:AVMediaTypeAudio] objectAtIndex:0];
-        } else {
-            NSString *tmpError = [NSString stringWithFormat:@"no audio track on asset from %@", [videoPathArray objectAtIndex:i] ];
-            NSLog(@"%@",tmpError);
-            // return;
-            error = [NSError errorWithDomain:@"kudzu" code:42 userInfo:@{@"info" : tmpError}];
-        }
-        
-        // NSLog(@"asset transform: %@",NSStringFromCGAffineTransform(sourceVideoTrack.preferredTransform));
-
-//        //set the orientation
-//        if(i == 0)
-//        {
-//            [compositionVideoTrack setPreferredTransform: sourceVideoTrack.preferredTransform];
-//        }
-
-        // CGSize temp = CGSizeApplyAffineTransform(sourceVideoTrack.naturalSize, sourceVideoTrack.preferredTransform);
-        // CGSize size = CGSizeMake(fabsf(temp.width), fabsf(temp.height));
-        // CGAffineTransform transform = sourceVideoTrack.preferredTransform;
-        
-        videoComposition.renderSize = sourceVideoTrack.naturalSize;
-        
-        
-        // check the size of the sourceVideoTrack compared to the compositionVideoTrack (?)
-        // NSLog(@"clip size: %@, master size: %@",NSStringFromCGSize(sourceVideoTrack.naturalSize),NSStringFromCGSize(compositionVideoTrack.naturalSize));
-        
-/*
-        if( [self orientationForAsset:sourceAsset] == UIInterfaceOrientationPortrait ) {
-            CGAffineTransform rotation = CGAffineTransformMakeRotation(M_PI); // if its portrait, rotate it!
-            // CGAffineTransform translateToCenter = CGAffineTransformMakeTranslation(sourceVideoTrack.naturalSize.width, sourceVideoTrack.naturalSize.height);
-            // CGAffineTransform mixedTransform = CGAffineTransformConcat(rotation, translateToCenter);
-            [firstTrackInstruction setTransform:rotation atTime:startTime];
-        }
-*/
-        videoOk = [compositionVideoTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, [sourceAsset duration])
-                                                 ofTrack:sourceVideoTrack
-                                                  atTime:startTime
-                                                   error: &error];
-        
-        audioOk = [compositionAudioTrack insertTimeRange:CMTimeRangeMake(kCMTimeZero, [sourceAsset duration])
-                                                 ofTrack:sourceAudioTrack
-                                                  atTime:startTime
-                                                   error: &error];
-        
-        if (!videoOk || !audioOk) {
-            // Deal with the error.
-            NSLog(@"something went wrong");
-            // return;
-        }
-        
-//        //if the track we added was in landscape-left mode, it needs to be rotated 180 degrees (PI)
-//        
-//        // check the clip's orientation against the orientation of where we're putting it
-//        // do [firstTrackInstruction setTransform:rotation atTime:startTime];
-//        CGAffineTransform tmpRotation = CGAffineTransformIdentity;
-//        
-//        switch ( [self orientationForAsset:sourceAsset] ) {
-//            case UIInterfaceOrientationPortrait:
-//                // The device is in portrait mode, with the device held upright and the home button on the bottom.
-//                // 90° right (?)
-//                tmpRotation = CGAffineTransformRotate(tmpRotation, M_PI/2);
-//                break;
-//            case UIInterfaceOrientationLandscapeLeft:
-//                // The device is in landscape mode, with the device held upright and the home button on the left side.
-//                // do nothing
-//                break;
-//            case UIInterfaceOrientationLandscapeRight:
-//                // The device is in landscape mode, with the device held upright and the home button on the right side.
-//                // flip it over
-//                tmpRotation = CGAffineTransformRotate(tmpRotation, M_PI);
-//                break;
-//            case UIInterfaceOrientationPortraitUpsideDown:
-//                // The device is in portrait mode but upside down, with the device held upright and the home button at the top.
-//                // 90° left (?)
-//                tmpRotation = CGAffineTransformRotate(tmpRotation, -M_PI/2);
-//                break;
-//                
-//            default:
-//                // wat
-//                break;
-//        }
-//        
-//        // now apply it
-//        [layerInstruction setTransform:tmpRotation atTime:startTime];
-
-        // bump the time up for the next piece.
-        startTime = CMTimeAdd(startTime, [sourceAsset duration]);
-    }
-    
-    instruction.layerInstructions = [NSArray arrayWithObject:layerInstruction];
-    instruction.timeRange = compositionVideoTrack.timeRange;
-    
-    videoComposition.instructions = [NSArray arrayWithObject:instruction];
-    //export the combined video
-    NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *tmpFileName = [NSString stringWithFormat:@"kudzu-%f.mov",[[NSDate date] timeIntervalSince1970]];
-    NSString *combinedPath = [documentsDirectory stringByAppendingPathComponent:tmpFileName];
-    
-    NSURL *url = [[NSURL alloc] initFileURLWithPath:combinedPath];
-    
-    // #warning add a way to select size
-    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:composition presetName: AVAssetExportPreset640x480];
-    
-    exporter.outputURL = url;
-    
-    exporter.outputFileType = [[exporter supportedFileTypes] objectAtIndex: 0];
-    
-    [exporter exportAsynchronouslyWithCompletionHandler: ^(void) {
-        [self mergeVideoFinished:exporter.outputURL status:exporter.status error:exporter.error];
     }];
     
+    if(stitcherError)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:stitcherError.domain
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+    else
+    {
+        // save it to the library?
+        
+//        [self saveOutputToAssetLibrary:nil completionBlock:^(NSError *saveError) {
+//            
+//            [UIView animateWithDuration:0.25 animations:^{
+//                self.busyView.frame = CGRectMake(self.busyView.frame.origin.x, -self.busyView.frame.size.height, self.busyView.frame.size.width, self.busyView.frame.size.height);
+//            } completion:^(BOOL finished) {
+//                self.busyView.hidden = YES;
+//            }];
+//            
+//            [[NSFileManager defaultManager] removeItemAtURL:finalOutputFileURL error:nil];
+//            
+//            self.videoRecrodingProgress.progress = 0.0;
+//            self.recordButton.enabled = YES;
+//
+//        }];
+    }
+   
+    NSURL *finalVideoLocationURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@-%ld.mp4", NSTemporaryDirectory(), @"final", (long)[[NSDate date] timeIntervalSince1970]]];
+
+    
+    [stitcher exportTo:finalVideoLocationURL
+            withPreset:AVAssetExportPreset1280x720
+ withCompletionHandler:^(NSError *error) {
+     
+     [self mergeVideoFinished:finalVideoLocationURL status:0 error:error];
+     
+ }];
 }
 
 - (UIInterfaceOrientation)orientationForVideoTrack:(AVAssetTrack *)videoTrack
